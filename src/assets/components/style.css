@@ -1,0 +1,7 @@
+.container .home {
+    height: 48%;
+    width: 66%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
