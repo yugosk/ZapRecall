@@ -1,19 +1,18 @@
-import "./assets/components/style.css";
-import Home from "./Home";
-import Flash from "./Flash";
-import "./assets/components/style.css";
+import Home from "./Home.js";
+import Flash from "./Flash.js";
+import React from "react";
 
 export default function App() {
     const [page, setPage] = React.useState("home");
 
-    function startRecall(state) {
-        setPage(state);
+    function startRecall() {
+        setPage("recall");
     }
 
     switch (page) {
         case "home":
             return (
-                <Home startRecall={() => startRecall("recall")} />
+                <Home startRecall={startRecall} />
             );
         case "recall":
             return (

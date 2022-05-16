@@ -1,13 +1,13 @@
-import "./assets/components/home.css";
+import logotipo from "./assets/img/logo.png"
 
-function Home() {
+export default function Home(props) {
     return (
         <div className="container home">
             <div className="logo">
-            <img source="../assets/img/logo.png" />
+            <img src={logotipo} />
             <h1>ZapRecall</h1>
             </div>
-            <button>Iniciar Recall!</button>
+            <button onClick={props.startRecall}>Iniciar Recall!</button>
         </div>
     );
 }

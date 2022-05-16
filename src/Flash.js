@@ -1,4 +1,8 @@
 import React from "react";
+import logoPequeno from "./assets/img/logo-pequeno.png";
+import setinha from "./assets/img/setinha.png"
+import sad from "./assets/img/sad.png"
+import party from "./assets/img/party.png"
 
 const questionsJS = [
     {
@@ -44,30 +48,113 @@ const questionsJS = [
 ]
 
 export default function Flash() {
+    const [answers, setAnswers] = React.useState([]);
+    function addAnswer(a) {
+        const newAnswers = [...answers, a]
+        setAnswers(newAnswers);
+    }
     return (
         <>
         <header>
-            <img src="../src/assets/img/logo-pequeno.png" alt="" />
+            <img src={logoPequeno} alt="" />
             <h1>
             ZapRecall
             </h1>
         </header>
         <div className="container flashcards">
-            <Cards />
+            <Cards addAnswer={addAnswer} />
         </div>
-        <footer>
-            <p>0/4 CONCLUÍDOS</p>
-        </footer>
+        <Footer count={answers.length} answers={answers} />
         </>
     );
+
 }
 
-function Cards() {
+function Footer(props) {
+    if (props.count < 8) {
+        return (
+            <>
+            <footer>
+                <p>{props.count}/8 CONCLUÍDOS</p>
+                <div className="icons">
+                    {(props.answers).map((item, index) => (
+                        <div className={item} key={index}>
+                            <ion-icon name={item}></ion-icon>
+                        </div> 
+                    )
+                    )}
+                </div>
+            </footer>
+            </>
+        );
+    } else {
+        if ((props.answers).includes("close-circle")) {
+            return (
+                <>
+                <footer>
+                    <div className="resultado">
+                        <div className="imagemResultado">
+                        <img src={sad} />
+                        <h3>Putz...</h3>
+                        </div>
+                        <p>Ainda faltam alguns... <br/>Mas não desanime!</p>
+                    </div>
+                    <p>{props.count}/8 CONCLUÍDOS</p>
+                    <div className="icons">
+                        {(props.answers).map((item, index) => (
+                            <div className={item} key={index}>
+                                <ion-icon name={item}></ion-icon>
+                            </div> 
+                        )
+                        )}
+                    </div>
+                </footer>
+                </>
+            ); 
+        } else {
+            return (
+                <>
+                <footer>
+                    <div className="resultado">
+                    <div className="imagemResultado">
+                        <img src={party} />
+                        <h3>Parabéns!</h3>
+                    </div>
+                        <p>Você não esqueceu de <br/>nenhum flashcard!</p>
+                    </div>
+                    <p>{props.count}/8 CONCLUÍDOS</p>
+                    <div className="icons">
+                        {(props.answers).map((item, index) => (
+                            <div className={item} key={index}>
+                                <ion-icon name={item}></ion-icon>
+                            </div> 
+                        )
+                        )}
+                    </div>
+                </footer>
+                </>
+            ); 
+        }
+}
+}
+
+function Cards(props) {
     questionsJS.sort(comparador);
     for (let i=0; i<questionsJS.length; i++) {
         questionsJS[i].number = (i+1);
     }
 
+    return (
+        <>
+        {questionsJS.map((item, index) => (
+            <FlashCard addAnswer={props.addAnswer} number={item.number} question={item.question} answer={item.answer} key={index} />
+        ))
+        }
+        </>
+    );
+}
+
+function FlashCard(props) {
     const [display, setDisplay] = React.useState("card");
 
     function displayQuestion() {
@@ -78,13 +165,24 @@ function Cards() {
         setDisplay("cardAnswer");
     }
 
+    function answerRed() {
+        setDisplay("answeredWrong");
+        props.addAnswer("close-circle");
+    }
+
+    function answerYellow() {
+        setDisplay("answeredAlmost");
+        props.addAnswer("help-circle");
+    }
+
+    function answerGreen() {
+        setDisplay("answeredCorrect");
+        props.addAnswer("checkmark-circle");
+    }
+    
     return (
-        <>
-        {questionsJS.map((item, index) => (
-            <CardContent state={display} number={item.number} displayQuestion={displayQuestion} displayAnswer={displayAnswer} question={item.question} answer={item.answer} key={index} />
-        ))
-        }
-        </>
+        <CardContent state={display} number={props.number} displayQuestion={displayQuestion} displayAnswer={displayAnswer} question={props.question} answer={props.answer} key={props.key}
+        answerRed={answerRed} answerYellow={answerYellow} answerGreen={answerGreen} />
     );
 }
 
@@ -104,7 +202,7 @@ function CardContent(props) {
                         <p>{props.question}</p>
                     </div>
                     <div className="textImage">
-                        <img src="../src/assets/img/setinha.png" alt="" onClick={props.displayAnswer} />
+                        <img src={setinha} alt="" onClick={props.displayAnswer} />
                     </div>
                 </div>
             );
@@ -115,34 +213,31 @@ function CardContent(props) {
                         <p>{props.answer}</p>
                     </div>
                     <div class="buttonsAnswer">
-                        <button className="buttonRed">Não lembrei</button>
-                        <button className="buttonYellow">Quase não lembrei</button>
-                        <button className="buttonGreen">Zap!</button>
+                        <button className="buttonRed" onClick={props.answerRed}>Não lembrei</button>
+                        <button className="buttonYellow" onClick={props.answerYellow}>Quase não lembrei</button>
+                        <button className="buttonGreen" onClick={props.answerGreen}>Zap!</button>
                     </div>
                 </div>
             );
-        case "AnsweredCorrect":
+        case "answeredCorrect":
             return (
-                <div className="card" key={props.key}>
+                <div className="card cardCorrect" key={props.key}>
                     <h2>Pergunta {props.number}</h2>
-                    <ion-icon name="close-circle"></ion-icon>
-                    <ion-icon name="play-outline" onClick={props.displayQuestion}></ion-icon>
+                    <ion-icon name="checkmark-circle"></ion-icon>
                 </div>      
             );
-        case "AnsweredWrong":
+        case "answeredWrong":
             return (
-                <div className="card" key={props.key}>
+                <div className="card cardWrong" key={props.key}>
                     <h2>Pergunta {props.number}</h2>
                     <ion-icon name="close-circle"></ion-icon>
-                    <ion-icon name="play-outline" onClick={props.displayQuestion}></ion-icon>
                 </div>      
             );
-        case "AnsweredAlmost":
+        case "answeredAlmost":
             return (
-                <div className="card" key={props.key}>
+                <div className="card cardAlmost" key={props.key}>
                     <h2>Pergunta {props.number}</h2>
-                    <ion-icon name="close-circle"></ion-icon>
-                    <ion-icon name="play-outline" onClick={props.displayQuestion}></ion-icon>
+                    <ion-icon name="help-circle"></ion-icon>
                 </div>      
             );
     
