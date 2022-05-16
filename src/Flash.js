@@ -43,45 +43,112 @@ const questionsJS = [
     }
 ]
 
+export default function Flash() {
+    return (
+        <>
+        <header>
+            <img src="../src/assets/img/logo-pequeno.png" alt="" />
+            <h1>
+            ZapRecall
+            </h1>
+        </header>
+        <div className="container flashcards">
+            <Cards />
+        </div>
+        <footer>
+            <p>0/4 CONCLUÍDOS</p>
+        </footer>
+        </>
+    );
+}
+
 function Cards() {
+    questionsJS.sort(comparador);
+    for (let i=0; i<questionsJS.length; i++) {
+        questionsJS[i].number = (i+1);
+    }
+
+    const [display, setDisplay] = React.useState("card");
+
+    function displayQuestion() {
+        setDisplay("cardText");
+    }
+
+    function displayAnswer() {
+        setDisplay("cardAnswer");
+    }
+
     return (
         <>
         {questionsJS.map((item, index) => (
-            <div className="card" key ={index}>
-                <Questions number={item.number} question={item.question} answer={item.answer} />
-            </div>
+            <CardContent state={display} number={item.number} displayQuestion={displayQuestion} displayAnswer={displayAnswer} question={item.question} answer={item.answer} key={index} />
         ))
         }
         </>
     );
 }
 
-function Questions(props) {
-    return (
-        <>
-            <div className="cardFace">
-                <h3>
-                Pergunta {props.number}
-                </h3>
-                <ion-icon name="play-outline"></ion-icon>
-            </div>
-
-            <div className="cardBack">
-                <p>
-                    {props.question}
-                </p>
-            </div>
-
-            <div className="cardAnswer">
-                <p>
-                    {props.answer}
-                </p>
-                <div className="buttons">
-                    <button>Não lembrei</button>
-                    <button>Quase não lembrei</button>
-                    <button>Zap!</button>
+function CardContent(props) {
+    switch(props.state) {
+        case "card":
+            return (
+                <div className="card" key={props.key}>
+                    <h2>Pergunta {props.number}</h2>
+                    <ion-icon name="play-outline" onClick={props.displayQuestion}></ion-icon>
+                </div>      
+            );
+        case "cardText":
+            return (
+                <div className="cardQuestion" key={props.key}>
+                    <div className="textQuestion">
+                        <p>{props.question}</p>
+                    </div>
+                    <div className="textImage">
+                        <img src="../src/assets/img/setinha.png" alt="" onClick={props.displayAnswer} />
+                    </div>
                 </div>
-            </div>
-        </>
-    );
+            );
+        case "cardAnswer":
+            return (
+                <div className="cardAnswer" key={props.key}>
+                    <div className="textAnswer">
+                        <p>{props.answer}</p>
+                    </div>
+                    <div class="buttonsAnswer">
+                        <button className="buttonRed">Não lembrei</button>
+                        <button className="buttonYellow">Quase não lembrei</button>
+                        <button className="buttonGreen">Zap!</button>
+                    </div>
+                </div>
+            );
+        case "AnsweredCorrect":
+            return (
+                <div className="card" key={props.key}>
+                    <h2>Pergunta {props.number}</h2>
+                    <ion-icon name="close-circle"></ion-icon>
+                    <ion-icon name="play-outline" onClick={props.displayQuestion}></ion-icon>
+                </div>      
+            );
+        case "AnsweredWrong":
+            return (
+                <div className="card" key={props.key}>
+                    <h2>Pergunta {props.number}</h2>
+                    <ion-icon name="close-circle"></ion-icon>
+                    <ion-icon name="play-outline" onClick={props.displayQuestion}></ion-icon>
+                </div>      
+            );
+        case "AnsweredAlmost":
+            return (
+                <div className="card" key={props.key}>
+                    <h2>Pergunta {props.number}</h2>
+                    <ion-icon name="close-circle"></ion-icon>
+                    <ion-icon name="play-outline" onClick={props.displayQuestion}></ion-icon>
+                </div>      
+            );
+    
+    }
+}
+
+function comparador() { 
+	return Math.random() - 0.5; 
 }

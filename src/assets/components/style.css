@@ -1,7 +1,244 @@
-.container .home {
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #fb6b6b;
+}
+
+.root {
+    height: 667px;
+    width: 375px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container.home {
     height: 48%;
     width: 66%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-direction: column;
+}
+
+.container.home .logo {
+    height: 74%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.container.home .logo img {
+    width: auto;
+    width: 55%;
+}
+
+.container.home .logo h1 {
+    font-family: 'Recursive', sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+    color: #ffffff;
+}
+
+.container.home button {
+    width: 100%;
+    height: 17%;
+    border: 1px solid #D70900;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    font-family: 'Recursive', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #d70900;
+}
+
+footer {
+    height: fit-content;
+    min-height: 80px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+footer p {
+    font-family: 'Recursive', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    text-align: left;
+}
+
+header {
+    height: 15%;
+    width: 68%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    position: fixed;
+    top: 0%;
+    z-index: 1;
+    background-color: #fb6b6b;
+}
+
+header img {
+    width: 20%;
+}
+
+header h1 {
+    font-family: 'Recursive', sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.container.flashcards {
+    height: 70%;
+    width: 80%;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    padding-top: 25%;
+    padding-bottom: 20%;
+}
+
+.container.flashcards .card {
+    width: 80%;
+    min-height: 65px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    margin-bottom: 25px;
+    padding-left: 15px;
+    padding-right: 22px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.container.flashcards .card ion-icon{
+    font-size: 24px;
+}
+
+.container.flashcards .card h2 {
+    font-family: 'Recursive', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #333333;
+}
+
+.container.flashcards .cardQuestion {
+    background: #FFFFD5;
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    width: 80%;
+    margin-bottom: 25px;
+    min-height: 131px;
+    padding-left: 15px;
+    padding-right: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: space-between;
+    justify-content: space-between;
+}
+
+.container.flashcards .cardQuestion .textQuestion {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.container.flashcards .cardQuestion .textQuestion p {
+    font-family: 'Recursive', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #333333;
+    text-align: start;
+}
+
+.container.flashcards .cardQuestion .textImage {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    padding-right: 15px;
+    padding-bottom: 15px;
+}
+
+.container.flashcards .cardAnswer {
+    background: #FFFFD5;
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    width: 80%;
+    margin-bottom: 25px;
+    min-height: 131px;
+    padding: 6px 15px 15px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: space-between;
+    justify-content: space-between;
+}
+
+.container.flashcards .cardAnswer .textAnswer p {
+    font-family: 'Recursive', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #333333;
+    text-align: start;
+}
+
+.container.flashcards .cardAnswer .buttonsAnswer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.container.flashcards .cardAnswer .buttonsAnswer .buttonRed{
+    width: 28%;
+    background-color: #ff3030;
+    border-radius: 5px;
+    border: none;
+    font-family: 'Recursive', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #ffffff;
+}
+
+.container.flashcards .cardAnswer .buttonsAnswer .buttonYellow{
+    background-color: #ff922e;
+    width: 28%;
+    border-radius: 5px;
+    border: none;
+    font-family: 'Recursive', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #ffffff;
+}
+
+.container.flashcards .cardAnswer .buttonsAnswer .buttonGreen{
+    width: 28%;
+    background-color: #2fbe34;
+    border-radius: 5px;
+    border: none;
+    font-family: 'Recursive', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #ffffff;
 }
